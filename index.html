@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Triangle App</title>
+</head>
+<body>
+
+    <div>
+        <h2>Search by Name</h2>
+        <input type="text" id="prodId" size="5" />
+        <input type="button" value="Search" onclick="findvertices();" />
+        <p id="vertices" />
+    </div>
+    <div>
+        <h2>Search by Coordinates</h2>
+        <input type="text" id="v1x" size="5" />
+        <input type="text" id="v1y" size="5" />
+        <input type="text" id="v2x" size="5" />
+        <input type="text" id="v2y" size="5" />
+        <input type="text" id="v3x" size="5" />
+        <input type="text" id="v3y" size="5" />
+        <input type="button" value="Search" onclick="findtriangle();" />
+        <p id="triangle" />
+    </div>
+
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script>
+        var uriTriangle = 'api/triangle';
+        var uriVertices = 'api/vertices';
+
+        function findvertices() {
+          var id = $('#prodId').val();
+          $.getJSON(uriTriangle + '/' + id)
+              .done(function (data) {
+                $('#vertices').text(data);
+              })
+              .fail(function (jqXHR, textStatus, err) {
+                  $('#vertices').text('Error: ' + err);
+              });
+        }
+
+        function findtriangle() {
+            var id1 = $('#v1x').val();
+            var id2 = $('#v1y').val();
+            var id3 = $('#v2x').val();
+            var id4 = $('#v2y').val();
+            var id5 = $('#v3x').val();
+            var id6 = $('#v3y').val();
+            $.getJSON(uriVertices + '/' + id1 + '/' + id2 + '/' + id3 + '/' + id4 + '/' + id5 + '/' + id6)
+                .done(function (data) {
+                    $('#triangle').text(data);
+                })
+                .fail(function (jqXHR, textStatus, err) {
+                    $('#triangle').text('Error: ' + err);
+                });
+        }
+    </script>
+</body>
+</html>
